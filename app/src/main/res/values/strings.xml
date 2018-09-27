@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">LocationSMS</string>
+    <string name="baidu">百度</string>
+    <string name="amap">高德</string>
+    <string name="tencent">腾讯</string>
+    <!--<string name="location_Amap_Url">androidamap://viewMap?lat=%2$f&amp;lon=%1$f</string>-->
+    <string name="location_Amap_Url">https://uri.amap.com/marker?position=%1$f,%2$f</string>
+    <!--<string name="location_baidu_Url">baidumap://map/latlng:%2$f,%1$f</string>-->
+    <string name="location_baidu_Url">https://api.map.baidu.com/geocoder?location=%2$f,%1$f&amp;coord_type=gcj02&amp;output=html&amp;src=com.jackhang.locationsms</string>
+    <string name="location_tencent_Url">https://apis.map.qq.com/uri/v2/geocoder?coord=%2$f,%1$f&amp;referer=LocationSMS</string>
+
+    <string name="privacyPolicy">隐私政策 读取短信 位置短信需要阅读短信权限才能查看短信是否包含任何请求位置的单词，例如“你在哪里？”。接收文本消息的发送者和时间将存储在设备本地，因此可以在应用程序中记录位置请求，但不会收集有关已接收文本的信息。 位置访问 当设备的GPS位置将被请求时手机会收到一条短信，其中包含请求某个位置的任何字词，例如“你在哪里？”。如果此文本消息的发件人有权请求您的位置，那么刚刚请求的位置将被回复给他们。纬度和经度将本地存储在设备上，因此可以在应用程序中记录位置请求，但不会收集有关该位置的信息。在频繁的背景中请求设备的位置，以查看它们是否输入任何“地理围栏”但未存储已收集的位置。 读取联系人 位置SMS不收集或共享有关设备上的联系人的信息。需要读取联系人权限以允许用户选择他们希望能够访问其位置的联系人。有关他们选择的联系人的信息将仅存储在设备本地，不会被收集。 位置SMS不会将任何数据发送到服务器</string>
+    <string name="permissionDenyTitle">请求权限</string>
+    <string name="permissionLocationMessage">定位请求权限</string>
+    <string name="permissionSMSMessage">请求短信权限</string>
+
+    <string name="contactsChoseTitle">选择联系人</string>
 </resources>

@@ -2,7 +2,14 @@
 <manifest package="com.jackhang.locationsms"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--写短信的权限-->
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <!--收短信的权限-->
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <!--读取短信信息的权限-->
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <!--读取联系人的权限-->
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <!--用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!--用于访问GPS定位-->
@@ -40,6 +47,13 @@
         <service android:name="com.amap.api.location.APSService"/>
 
         <meta-data android:name="com.amap.api.v2.apikey" android:value="be7df958131cd5ae20d3d43785aabf52"/>
+
+        <receiver android:name=".SmsBroadcastReceiver">
+            <intent-filter android:priority="1000"> <!--优先级：-1000~1000，系统短信优先级为-1-->
+                <!--订阅广播事件类型-->
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
