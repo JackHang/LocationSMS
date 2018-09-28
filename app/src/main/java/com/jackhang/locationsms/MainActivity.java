@@ -19,6 +19,11 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.jackhang.Utils.GetNumber;
+import com.jackhang.Utils.PermissionHelper;
+import com.jackhang.Utils.SPUtils;
+import com.jackhang.Utils.Utils;
+import com.jackhang.constant.KeyValue;
 
 /**
  * @author JackHang

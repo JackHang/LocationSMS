@@ -48,7 +48,7 @@
 
         <meta-data android:name="com.amap.api.v2.apikey" android:value="be7df958131cd5ae20d3d43785aabf52"/>
 
-        <receiver android:name=".SmsBroadcastReceiver">
+        <receiver android:name="com.jackhang.broadcast.SmsBroadcastReceiver">
             <intent-filter android:priority="1000"> <!--优先级：-1000~1000，系统短信优先级为-1-->
                 <!--订阅广播事件类型-->
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>

@@ -1,4 +1,4 @@
-package com.jackhang.locationsms;
+package com.jackhang.Utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,7 +21,7 @@ import static android.support.v4.app.ActivityCompat.shouldShowRequestPermissionR
  * @author JackHang
  * @date 2018/9/27.
  */
-class PermissionHelper
+public class PermissionHelper
 {
 
 	private static final String TAG = "PermissionHelper";
@@ -33,7 +33,7 @@ class PermissionHelper
 	private boolean showRational;
 
 
-	PermissionHelper(Activity activity, String[] permissions, int requestCode)
+	public PermissionHelper(Activity activity, String[] permissions, int requestCode)
 	{
 		this.activity = activity;
 		this.permissions = permissions;

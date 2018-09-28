@@ -1,8 +1,10 @@
-package com.jackhang.locationsms;
+package com.jackhang.Utils;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+
+import com.jackhang.bean.PhoneInfo;
 
 import java.util.ArrayList;
 import java.util.List;

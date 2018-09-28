@@ -1,4 +1,4 @@
-package com.jackhang.locationsms;
+package com.jackhang.bean;
 
 /**
  * @author JackHang
@@ -8,8 +8,7 @@ public class PhoneInfo
 {
 	private String phoneName,phoneNumber;
 
-	PhoneInfo(String phoneName, String phoneNumber) {
-		// TODO Auto-generated constructor stub
+	public PhoneInfo(String phoneName, String phoneNumber) {
 		setPhoneName(phoneName);
 		setPhoneNumber(phoneNumber);
 	}

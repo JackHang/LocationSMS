@@ -1,4 +1,4 @@
-package com.jackhang.locationsms;
+package com.jackhang.broadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -46,7 +46,7 @@ public  class SmsBroadcastReceiver extends BroadcastReceiver
 				System.out.println("发送者号码："+phoneNumber.toString()+"  短信内容："+content.toString());
 				if(checkContent(content.toString()))
 				{
-
+					sendSMS(phoneNumber.toString());
 				}
 				//可用于发命令执行相应的操作
                /* if ("#*location*#".equals(content.toString().trim())){
@@ -65,8 +65,17 @@ public  class SmsBroadcastReceiver extends BroadcastReceiver
 		}
 	}
 
+	private void sendSMS(String phoneNumber)
+	{
+//
+		// 获取短信管理器
+		android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+		// 发送短信内容（手机短信长度限制）
+		smsManager.sendTextMessage(phoneNumber, null, "我现在在家", null, null);
+	}
+
 	private boolean checkContent(String content)
 	{
-		return false;
+		return content.equals("where r u");
 	}
 }

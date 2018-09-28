@@ -1,4 +1,4 @@
-package com.jackhang.locationsms;
+package com.jackhang.Utils;
 
 import android.app.Activity;
 import android.app.Application;
