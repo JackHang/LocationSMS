@@ -166,7 +166,7 @@ public class PermissionHelper
 	 * @param permissions Permission List
 	 * @return false if has no permission
 	 */
-	private boolean checkSelfPermission(String[] permissions)
+	public boolean checkSelfPermission(String[] permissions)
 	{
 		for (String permission : permissions)
 		{

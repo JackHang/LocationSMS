@@ -1,6 +1,5 @@
 package com.jackhang.Utils;
 
-import android.app.Activity;
 import android.app.Application;
 
 /**
@@ -11,11 +10,11 @@ public class Utils
 {
 	private static Application mApp;
 
-	public static void init(Activity mActivity)
+	public static void init(Application app)
 	{
 		if(mApp == null)
 		{
-			mApp = mActivity.getApplication();
+			mApp = app;
 		}
 	}
 

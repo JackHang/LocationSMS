@@ -417,7 +417,7 @@ public final class SPUtils
 	 */
 	public Set<String> getStringSet(@NonNull final String key)
 	{
-		return getStringSet(key, Collections.<String>emptySet());
+		return getStringSet(key, Collections.emptySet());
 	}
 
 	/**

@@ -1,48 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_location"
+    <LinearLayout
+        android:id="@+id/ll_location_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/location_Amap_Url"
-        android:autoLink="all"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:layout_centerInParent="true">
 
-    <Button
-        android:id="@+id/btn_baidu"
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/locationLonLat"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/locationAddress"
+            android:padding="10dp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/button_sos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/baidu" />
+        android:background="@drawable/sos"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:padding="50dp"
+        android:layout_below="@id/ll_location_info"
+        android:contentDescription="@string/send_location_message_to_friend" />
 
-    <Button
-        android:id="@+id/btn_click_amap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/amap"
-        app:layout_constraintStart_toEndOf="@+id/btn_baidu"
-        tools:layout_editor_absoluteY="0dp" />
-
-    <Button
-        android:id="@+id/btn_click_tencent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/tencent"
-        app:layout_constraintStart_toEndOf="@+id/btn_click_amap"
-        tools:layout_editor_absoluteY="0dp" />
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
