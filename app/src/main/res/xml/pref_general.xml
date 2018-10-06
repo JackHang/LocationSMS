@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<PreferenceCategory android:title="@string/great_purchases">-->
+    <!--<Preference android:title="Location SMS Pro" android:key="pro" android:summary="@string/pro_description" />-->
+    <!--</PreferenceCategory>-->
+    <PreferenceCategory android:title="@string/privacy">
+        <MultiSelectListPreference
+            android:title="@string/select_contacts"
+            android:key="allowedContacts"
+            android:summary="@string/app_name" />
+        <EditTextPreference
+            android:singleLine="true"
+            android:selectAllOnFocus="true"
+            android:title="@string/auth_title"
+            android:key="authCode"
+            android:summary="@string/app_name"
+            android:inputType="numberDecimal|numberSigned" />
+    </PreferenceCategory>
+</PreferenceScreen>

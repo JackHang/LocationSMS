@@ -1,10 +1,12 @@
 package com.jackhang.locationsms;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -29,7 +31,6 @@ import com.jackhang.constant.KeyValue;
 public class MainActivity extends AppCompatActivity implements AMapLocationListener, PermissionHelper.PermissionCallback
 {
 	public static final String TAG = MainActivity.class.getSimpleName();
-	private final int NONE = 0, SMS = 1, LOCATION = 2, CONTACTS = 3;
 	public AMapLocationClient mLocationClient = null;
 	public AMapLocationClientOption mLocationOption = null;
 	private PermissionHelper mPermissionHelper;
@@ -42,15 +43,15 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
 			Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
 			Manifest.permission.READ_CONTACTS
 	};
-	private String[] permissionsLocation = new String[]{
-			Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
-	};
-	private String[] permissionsContacts = new String[]{
-			Manifest.permission.READ_CONTACTS
-	};
-	private String[] permissionsSMS = new String[]{
-			Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS
-	};
+//	private String[] permissionsLocation = new String[]{
+//			Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
+//	};
+//	private String[] permissionsContacts = new String[]{
+//			Manifest.permission.READ_CONTACTS
+//	};
+//	private String[] permissionsSMS = new String[]{
+//			Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS
+//	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -58,12 +59,15 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		initToolBar();
+
 		initLoaction();
 
-//		findViewById(R.id.btn_baidu).setOnClickListener(v ->
-//		{
-//			choiceContacts();
-//		});
+		TextView locationLonLat = findViewById(R.id.tv_location);
+		locationLonLat.setText(getString(R.string.locationLonLat, lon, lat));
+		TextView locationAddress = findViewById(R.id.tv_address);
+		locationAddress.setText(getString(R.string.locationAddress, ""));
+
 		findViewById(R.id.button_sos).setOnClickListener(v ->
 		{
 			if (lat == 0 || lon == 0)
@@ -77,6 +81,22 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
 		});
 
 		permissionCheck();
+	}
+
+	private void initToolBar()
+	{
+		Toolbar toolbar = findViewById(R.id.toolbar);
+
+		toolbar.inflateMenu(R.menu.base_toolbar_menu);//设置右上角的填充菜单
+		toolbar.setOnMenuItemClickListener(item -> {
+			int menuItemId = item.getItemId();
+			if (menuItemId == R.id.action_about)
+			{
+//				Toast.makeText(MainActivity.this , R.string.menuAbout , Toast.LENGTH_SHORT).show();
+				startActivity(new Intent(this, SettingsActivity.class));
+			}
+			return true;
+		});
 	}
 
 	private void sendSOSMessage()

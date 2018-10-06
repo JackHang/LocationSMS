@@ -34,4 +34,9 @@
     <string name="noContactsHint">未设置紧急联系人，请先设置紧急联系人</string>
     <string name="messageSendHint">短信已发送</string>
     <string name="send_location_message_to_friend">Send Location Message To Friend</string>
+
+    <string name="menuAbout">关于</string>
+    <string name="auth_title">授权码</string>
+    <string name="select_contacts">紧急联系人</string>
+    <string name="privacy">隐私</string>
 </resources>
