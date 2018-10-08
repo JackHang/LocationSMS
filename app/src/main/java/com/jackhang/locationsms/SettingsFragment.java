@@ -15,6 +15,7 @@ public class SettingsFragment extends PreferenceFragment
 	{
 		super.onCreate(savedInstanceState);
 
+		getPreferenceManager().setSharedPreferencesName("spUtils");
 		addPreferencesFromResource(R.xml.pref_general);
 	}
 }

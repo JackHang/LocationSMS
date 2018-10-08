@@ -23,6 +23,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver
 	private static final String SMS_RECEIVED_ACTION = "android.provider.Telephony.SMS_RECEIVED";
 	public AMapLocationClient mLocationClient = null;
 	public AMapLocationClientOption mLocationOption = null;
+	private boolean sendSMS = false;
 
 	@Override
 	public void onReceive(Context context, Intent intent)
@@ -62,6 +63,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver
 				System.out.println("发送者号码：" + phoneNumber.toString() + "  短信内容：" + content.toString());
 				if (checkContent(content.toString()))
 				{
+					sendSMS = true;
 					initLocation(context, phoneNumber.toString());
 				}
 			}
@@ -71,11 +73,10 @@ public class SmsBroadcastReceiver extends BroadcastReceiver
 	private void initLocation(Context context, String phoneNumber)
 	{
 		mLocationClient = new AMapLocationClient(context.getApplicationContext());
-		mLocationClient.setLocationListener(new AMapLocationListener()
-		{
-			@Override
-			public void onLocationChanged(AMapLocation aMapLocation)
+		mLocationClient.setLocationListener(aMapLocation -> {
+			if (sendSMS)
 			{
+				sendSMS = false;
 				sendSMS(context, phoneNumber, aMapLocation.getLongitude(), aMapLocation.getLatitude());
 			}
 		});
