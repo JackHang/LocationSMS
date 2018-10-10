@@ -1,12 +1,18 @@
 package com.jackhang.locationsms;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -22,7 +28,10 @@ import com.amap.api.location.AMapLocationListener;
 import com.jackhang.Utils.GetNumber;
 import com.jackhang.Utils.PermissionHelper;
 import com.jackhang.Utils.SPUtils;
+import com.jackhang.bean.PhoneInfo;
 import com.jackhang.constant.KeyValue;
+
+import java.util.ArrayList;
 
 /**
  * @author JackHang
@@ -112,25 +121,29 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
 			}
 			// 获取短信管理器
 			android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-			String message;
+			StringBuilder message = new StringBuilder();
+			message.append(getString(R.string.callHelp));
 			switch (SPUtils.getInstance().getInt(KeyValue.MAP_STYLE))
 			{
 				case KeyValue.BMAP:
-					message = getString(R.string.location_baidu_Url, lon, lat);
+					message.append(getString(R.string.location_baidu_Url, lon, lat));
 					break;
 				case KeyValue.TMAP:
-					message = getString(R.string.location_baidu_Url, lon, lat);
+					message.append(getString(R.string.location_baidu_Url, lon, lat));
 					break;
 				case KeyValue.AMAP:
 				default:
-					message = getString(R.string.location_Amap_Url, lon, lat);
+					message.append(getString(R.string.location_Amap_Url, lon, lat));
 					break;
 			}
 			// 发送短信内容（手机短信长度限制）
+			message.append(" - 定位求助短信");
+			ArrayList<String> divideContents = smsManager.divideMessage(message.toString());
 			if (!sendMessage)
 			{
+				Toast.makeText(MainActivity.this, R.string.messageSendSuccess, Toast.LENGTH_SHORT).show();
 				sendMessage = true;
-				smsManager.sendTextMessage(ContactPhone, null, message, null, null);
+				smsManager.sendMultipartTextMessage(ContactPhone, null, divideContents, null, null);
 			}
 			else
 			{
@@ -149,7 +162,11 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
 		builder.setTitle(R.string.contactsChoseTitle);
 		final ListView localListView = new ListView(this);
 		localListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		localListView.setAdapter(new ArrayAdapter<>(this, R.layout.dialog_singlechoise, GetNumber.nameList.toArray(new String[GetNumber.nameList.size()])));
+		if (GetNumber.list.size() == 0)
+		{
+			GetNumber.getNumber(MainActivity.this);
+		}
+		localListView.setAdapter(new ArrayAdapter<>(this, R.layout.dialog_singlechoise, GetNumber.list));
 		builder.setView(localListView);
 		builder.setPositiveButton(R.string.buttonPositive, (dialog, which) ->
 		{
@@ -239,7 +256,10 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
 	public void onPermissionGranted()
 	{
 		Log.d(TAG, "onPermissionGranted() called");
-		GetNumber.getNumber(MainActivity.this);
+		if (GetNumber.list.size() == 0)
+		{
+			GetNumber.getNumber(MainActivity.this);
+		}
 	}
 
 	@Override
@@ -258,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
 		builder.setPositiveButton(R.string.buttonPositive, (dialog, witch) ->
 				mPermissionHelper.request(this));
 		builder.setNegativeButton(R.string.buttonNegative, (dialog, witch) -> dialog.dismiss());
+		builder.show();
 	}
 
 	@Override
@@ -270,5 +291,6 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
 		builder.setPositiveButton(R.string.buttonPositive, (dialog, witch) ->
 				mPermissionHelper.openAppDetailsActivity());
 		builder.setNegativeButton(R.string.buttonNegative, (dialog, witch) -> dialog.dismiss());
+		builder.show();
 	}
 }

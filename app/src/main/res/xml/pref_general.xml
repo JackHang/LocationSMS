@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--<PreferenceCategory android:title="@string/great_purchases">-->
-    <!--<Preference android:title="Location SMS Pro" android:key="pro" android:summary="@string/pro_description" />-->
-    <!--</PreferenceCategory>-->
     <PreferenceCategory android:title="@string/privacy">
-        <MultiSelectListPreference
-            android:title="@string/select_contacts"
-            android:key="allowedContacts"
-            android:summary="@string/app_name" />
+        <ListPreference
+            android:title="@string/selectContacts"
+            android:key="ContactPhone"
+            android:summary="@string/selectContactsHint" />
         <EditTextPreference
-            android:singleLine="true"
+            android:inputType="numberDecimal|numberSigned"
+            android:key="HelpCode"
             android:selectAllOnFocus="true"
-            android:title="@string/auth_title"
-            android:key="authCode"
-            android:summary="@string/app_name"
-            android:inputType="numberDecimal|numberSigned" />
+            android:singleLine="true"
+            android:summary="@string/authTitleHint"
+            android:title="@string/authTitle" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/menuAbout">
+        <PreferenceScreen
+            android:summary="@string/openSourceHint"
+            android:title="@string/openSource">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/JackHang/LocationSMS" />
+        </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>

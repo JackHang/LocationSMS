@@ -20,5 +20,5 @@ public class KeyValue
 	// 腾讯地图
 	public static final int TMAP = 2;
 
-	public static int HELP_CODE_DEFAULT = 1024;
+	public static String HELP_CODE_DEFAULT = "1024";
 }

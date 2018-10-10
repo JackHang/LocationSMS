@@ -14,6 +14,8 @@ import com.jackhang.Utils.SPUtils;
 import com.jackhang.constant.KeyValue;
 import com.jackhang.locationsms.R;
 
+import java.util.ArrayList;
+
 /**
  * @author JackHang
  * @date 2018/9/26.
@@ -23,6 +25,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver
 	private static final String SMS_RECEIVED_ACTION = "android.provider.Telephony.SMS_RECEIVED";
 	public AMapLocationClient mLocationClient = null;
 	public AMapLocationClientOption mLocationOption = null;
+	private boolean sendSMS = false;
 
 	@Override
 	public void onReceive(Context context, Intent intent)
@@ -60,9 +63,21 @@ public class SmsBroadcastReceiver extends BroadcastReceiver
 					phoneNumber.append(temp.getOriginatingAddress());
 				}
 				System.out.println("发送者号码：" + phoneNumber.toString() + "  短信内容：" + content.toString());
-				if (checkContent(content.toString()))
+				if (SPUtils.getInstance().getString(KeyValue.CONTACT_PHONE).equals(phoneNumber.toString()))
 				{
-					initLocation(context, phoneNumber.toString());
+					if (checkContent(content.toString()))
+					{
+						sendSMS = true;
+						initLocation(context, phoneNumber.toString());
+					}
+				}
+				else
+				{
+					if (checkContent(content.toString()))
+					{
+						sendSMS = true;
+						initLocation(context, phoneNumber.toString());
+					}
 				}
 			}
 		}
@@ -70,62 +85,69 @@ public class SmsBroadcastReceiver extends BroadcastReceiver
 
 	private void initLocation(Context context, String phoneNumber)
 	{
-		mLocationClient = new AMapLocationClient(context.getApplicationContext());
-		mLocationClient.setLocationListener(new AMapLocationListener()
+		if (mLocationClient == null)
 		{
-			@Override
-			public void onLocationChanged(AMapLocation aMapLocation)
-			{
-				sendSMS(context, phoneNumber, aMapLocation.getLongitude(), aMapLocation.getLatitude());
-			}
-		});
+			mLocationClient = new AMapLocationClient(context.getApplicationContext());
+			mLocationClient.setLocationListener(aMapLocation -> {
+				if (sendSMS)
+				{
+					sendSMS = false;
+					sendSMS(context, phoneNumber, aMapLocation.getLongitude(), aMapLocation.getLatitude());
+					mLocationClient.stopLocation();
+					mLocationClient.onDestroy();
+				}
+			});
 
-		mLocationOption = new AMapLocationClientOption();
-		//设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
-		mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+			mLocationOption = new AMapLocationClientOption();
+			//设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+			mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
 
-		//设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
-		mLocationOption.setInterval(1000);
+			//设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
+			mLocationOption.setInterval(5000);
 
-		//单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
-		mLocationOption.setHttpTimeOut(50000);
+			//单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
+			mLocationOption.setHttpTimeOut(50000);
 
-		//关闭缓存机制
-		mLocationOption.setLocationCacheEnable(false);
+			//关闭缓存机制
+			mLocationOption.setLocationCacheEnable(false);
 
-		//获取最近3s内精度最高的一次定位结果：
-		mLocationOption.setOnceLocationLatest(true);
+			//获取最近3s内精度最高的一次定位结果：
+			mLocationOption.setOnceLocationLatest(true);
 
-		//给定位客户端对象设置定位参数
-		mLocationClient.setLocationOption(mLocationOption);
-		//启动定位
-		mLocationClient.startLocation();
+			//给定位客户端对象设置定位参数
+			mLocationClient.setLocationOption(mLocationOption);
+			//启动定位
+			mLocationClient.startLocation();
+		}
 	}
 
 	private void sendSMS(Context context, String phoneNumber, double longitude, double latitude)
 	{
 		// 获取短信管理器
 		android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-		String message;
+		StringBuilder message = new StringBuilder();
 		switch (SPUtils.getInstance().getInt(KeyValue.MAP_STYLE))
 		{
 			case KeyValue.BMAP:
-				message = context.getString(R.string.location_baidu_Url, longitude, latitude);
+				message.append(context.getString(R.string.location_baidu_Url, longitude, latitude));
 				break;
 			case KeyValue.TMAP:
-				message = context.getString(R.string.location_baidu_Url, longitude, latitude);
+				message.append(context.getString(R.string.location_baidu_Url, longitude, latitude));
 				break;
 			case KeyValue.AMAP:
 			default:
-				message = context.getString(R.string.location_Amap_Url, longitude, latitude);
+				message.append(context.getString(R.string.location_Amap_Url, longitude, latitude));
 				break;
 		}
+		message.append(" - 定位求助短信");
 		// 发送短信内容（手机短信长度限制）
-		smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+		ArrayList<String> divideContents = smsManager.divideMessage(message.toString());
+		smsManager.sendMultipartTextMessage(phoneNumber, null, divideContents, null, null);
 	}
 
 	private boolean checkContent(String content)
 	{
-		return content.equals("你在哪里？");
+		String askMessage = "你在哪里？" + SPUtils.getInstance().getString(KeyValue.HELP_CODE);
+		return content.equals("你在哪里？") || content.equals(askMessage);
 	}
 }
