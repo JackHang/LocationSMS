@@ -2,16 +2,16 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/privacy">
         <ListPreference
-            android:title="@string/select_contacts"
+            android:title="@string/selectContacts"
             android:key="ContactPhone"
-            android:summary="@string/app_name" />
+            android:summary="@string/selectContactsHint" />
         <EditTextPreference
             android:inputType="numberDecimal|numberSigned"
             android:key="HelpCode"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:summary="@string/app_name"
-            android:title="@string/auth_title" />
+            android:summary="@string/authTitleHint"
+            android:title="@string/authTitle" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/menuAbout">

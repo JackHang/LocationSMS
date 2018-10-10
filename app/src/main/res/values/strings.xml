@@ -41,7 +41,9 @@
     <string name="menuAbout">关于</string>
     <string name="openSource">代码开源</string>
     <string name="openSourceHint">项目代码开源于GayHub</string>
-    <string name="auth_title">授权码</string>
-    <string name="select_contacts">紧急联系人</string>
+    <string name="authTitle">授权码</string>
+    <string name="authTitleHint">使用“你在哪里？”+授权码，可以从任何设备获取您当前的位置</string>
+    <string name="selectContacts">紧急联系人</string>
+    <string name="selectContactsHint">选择需要求助时可以直接发送信息的紧急联系人，同时可使用“你在哪里？”查询到你所在位置，无需授权码</string>
     <string name="privacy">隐私</string>
 </resources>

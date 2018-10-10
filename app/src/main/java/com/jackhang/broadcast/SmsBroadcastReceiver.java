@@ -63,10 +63,21 @@ public class SmsBroadcastReceiver extends BroadcastReceiver
 					phoneNumber.append(temp.getOriginatingAddress());
 				}
 				System.out.println("发送者号码：" + phoneNumber.toString() + "  短信内容：" + content.toString());
-				if (checkContent(content.toString()))
+				if (SPUtils.getInstance().getString(KeyValue.CONTACT_PHONE).equals(phoneNumber.toString()))
 				{
-					sendSMS = true;
-					initLocation(context, phoneNumber.toString());
+					if (checkContent(content.toString()))
+					{
+						sendSMS = true;
+						initLocation(context, phoneNumber.toString());
+					}
+				}
+				else
+				{
+					if (checkContent(content.toString()))
+					{
+						sendSMS = true;
+						initLocation(context, phoneNumber.toString());
+					}
 				}
 			}
 		}
@@ -82,8 +93,8 @@ public class SmsBroadcastReceiver extends BroadcastReceiver
 				{
 					sendSMS = false;
 					sendSMS(context, phoneNumber, aMapLocation.getLongitude(), aMapLocation.getLatitude());
-//				mLocationClient.stopLocation();
-//				mLocationClient.onDestroy();
+					mLocationClient.stopLocation();
+					mLocationClient.onDestroy();
 				}
 			});
 
@@ -136,6 +147,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver
 
 	private boolean checkContent(String content)
 	{
-		return content.equals("你在哪里？");
+		String askMessage = "你在哪里？" + SPUtils.getInstance().getString(KeyValue.HELP_CODE);
+		return content.equals("你在哪里？") || content.equals(askMessage);
 	}
 }
