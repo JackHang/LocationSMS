@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/privacy">
-        <MultiSelectListPreference
+        <ListPreference
             android:title="@string/select_contacts"
             android:key="ContactPhone"
             android:summary="@string/app_name" />
         <EditTextPreference
-            android:singleLine="true"
-            android:selectAllOnFocus="true"
-            android:title="@string/auth_title"
+            android:inputType="numberDecimal|numberSigned"
             android:key="HelpCode"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
             android:summary="@string/app_name"
-            android:inputType="numberDecimal|numberSigned" />
+            android:title="@string/auth_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/menuAbout">
+        <PreferenceScreen
+            android:summary="@string/openSourceHint"
+            android:title="@string/openSource">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/JackHang/LocationSMS" />
+        </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -17,6 +17,7 @@ public class GetNumber
 {
 	public static List<PhoneInfo> list = new ArrayList<>();
 	public static List<String> nameList = new ArrayList<>();
+	public static List<String> PhoneList = new ArrayList<>();
 
 	public static void getNumber(Context context) {
 		Cursor cursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
@@ -31,6 +32,7 @@ public class GetNumber
 				PhoneInfo phoneInfo = new PhoneInfo(phoneName, phoneNumber);
 				list.add(phoneInfo);
 				nameList.add(phoneName);
+				PhoneList.add(phoneNumber);
 				System.out.println(phoneName+"  "+phoneNumber);
 			}
 		}
